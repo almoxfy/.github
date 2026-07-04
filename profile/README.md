@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/almoxfy/almoxfy.github.io/blob/main/assets/images/logos/almoxfy_banner_1.png?raw=true" alt="Almoxfy Banner" width="100%">
+  <img src="banner.png" alt="Almoxfy Banner" width="100%">
 </p>
 
 <h1 align="center">Almoxfy: Almoxarifado Compartilhado 📦</h1>
