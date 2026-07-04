@@ -1,0 +1,62 @@
+# Centralized labels for almoxfy organization
+# Manifest path: .github/config/labels.yaml
+
+- name: "area: cli"
+  color: "fef2c0"
+  description: "Related to the Command Line Interface."
+
+- name: "area: core"
+  color: "fef2c0"
+  description: "Related to the engine or validation logic."
+
+- name: "area: validator"
+  color: "fef2c0"
+  description: "Related to specific K8s validation tools."
+
+- name: "duplicate"
+  color: "cfd3d7"
+  description: "This issue or pull request already exists."
+
+- name: "good first issue"
+  color: "7057ff"
+  description: "Good for newcomers to start contributing."
+
+- name: "invalid"
+  color: "e6e6e6"
+  description: "This doesn't seem right."
+
+- name: "priority: high"
+  color: "e11d21"
+  description: "Critical issue, needs immediate attention."
+
+- name: "status: help wanted"
+  color: "008672"
+  description: "Extra attention is needed from the community."
+
+- name: "status: wontfix"
+  color: "ffffff"
+  description: "This will not be worked on."
+
+- name: "type: bug"
+  color: "d73a4a"
+  description: "Something isn't working."
+
+- name: "type: chore"
+  color: "ededed"
+  description: "Maintenance, CI/CD, or refactoring."
+
+- name: "type: documentation"
+  color: "008672"
+  description: "Improvements or additions to documentation."
+
+- name: "type: feature"
+  color: "0075ca"
+  description: "New functionality."
+
+- name: "type: improvement"
+  color: "78de9b"
+  description: "An improvement on something that already exists."
+
+- name: "type: question"
+  color: "d4c5f9"
+  description: "Further information is requested."

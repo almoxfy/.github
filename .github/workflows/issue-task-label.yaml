@@ -1,0 +1,56 @@
+# Applies a single `type:*` label from the "Task kind" dropdown in
+# `.github/ISSUE_TEMPLATE/task.yaml`. Copy this workflow to other repositories
+# that use the same template and labels (it runs only in the repo where the file exists).
+
+name: Issue — label task by kind
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  apply-type-label:
+    if: contains(github.event.issue.body, '### Task kind')
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue.body || '';
+            const header = /^### Task kind\s*$/m;
+            const hm = body.match(header);
+            if (!hm) return;
+
+            const start = hm.index + hm[0].length;
+            const slice = body.slice(start);
+            const next = slice.search(/\n### /);
+            const block = next === -1 ? slice : slice.slice(0, next);
+            const lines = block
+              .split(/\r?\n/)
+              .map((l) => l.trim())
+              .filter((l) => l.length > 0);
+            const kind = lines[0];
+            if (!kind) {
+              console.log('::warning::Task kind section was empty');
+              return;
+            }
+
+            const map = {
+              'Chore / tooling / CI': 'type: chore',
+              'Documentation': 'type: documentation',
+              'Refactor / internal improvement': 'type: improvement',
+            };
+            const label = map[kind];
+            if (!label) {
+              console.log(`::warning::Unknown task kind, no label mapped: ${kind}`);
+              return;
+            }
+
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              labels: [label],
+            });

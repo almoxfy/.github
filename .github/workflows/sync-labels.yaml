@@ -1,0 +1,24 @@
+name: Sync Labels
+on:
+  push:
+    paths:
+      - '.github/config/labels.yaml'
+
+jobs:
+  labeler:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Sync Labels
+        uses: micnncim/action-label-syncer@v1
+        with:
+          manifest: '.github/config/labels.yaml'
+          repository: |
+            almoxfy/.github
+            almoxfy/almoxfy.github.io
+            almoxfy/almoxfy-back
+            almoxfy/almoxfy-docs
+            almoxfy/almoxfy-front
+            almoxfy/almoxfy-k8s
+          token: ${{ secrets.LABEL_SYNC_TOKEN }}
+          prune: true

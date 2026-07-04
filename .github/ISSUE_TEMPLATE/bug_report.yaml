@@ -1,0 +1,96 @@
+name: Bug Report
+description: Report unexpected behavior in this repository
+labels: ["type: bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Please try the **latest release** or **default branch** before submitting.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise summary of what is wrong.
+      placeholder: Short overview of the problem...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should have happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What happened instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: How can we reproduce it?
+      description: |
+        Minimal steps or commands. If the bug involves config files, use the field below (redact secrets).
+      placeholder: |
+        1. Run '...'
+        2. Set config to '...'
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: config_snippet
+    attributes:
+      label: Config, manifest, or sample input (optional)
+      description: |
+        Paste only what is needed to reproduce (e.g. YAML, JSON, `.env` excerpt).
+        **Remove secrets, tokens, and passwords.**
+      render: yaml
+      placeholder: |
+        # Optional — only if relevant
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ### Environment
+        Prefer pasting the **full** output of `make debug-info` from the project root (when that target exists).
+        Otherwise list **OS**, **Python version**, and versions of tools involved (e.g. **Kustomize**, **Helm**, **kubectl**, Docker).
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment details
+      description: |
+        Paste complete `make debug-info` output, **or** OS, Python, Kustomize/Helm/kubectl (and any other relevant tools).
+      render: bash
+      placeholder: "Paste make debug-info output or list versions here..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs or errors
+      description: Console errors, stack traces, or `make test` output (redact sensitive data).
+      render: bash
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Self-check
+      options:
+        - label: I have removed sensitive information from logs and pasted material.
+          required: true
+        - label: I reproduced this on the latest release or default branch.
+          required: false

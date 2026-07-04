@@ -1,0 +1,64 @@
+name: Task / Refactor
+description: Technical improvements, documentation, or maintenance tasks
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Technical Task
+        Use this for internal improvements that don't necessarily change the end-user functionality.
+
+  - type: dropdown
+    id: task_kind
+    attributes:
+      label: Task kind
+      description: "A type label (type: chore, documentation, or improvement) is applied automatically from this choice via Actions in this repository."
+      options:
+        - Chore / tooling / CI
+        - Documentation
+        - Refactor / internal improvement
+    validations:
+      required: true
+
+  - type: input
+    id: scope
+    attributes:
+      label: Scope
+      description: Briefly state which module, path, or area is affected.
+      placeholder: "e.g., Makefile, src/auth.py, .github/workflows"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What exactly needs to be done?
+    validations:
+      required: true
+
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Rationale
+      description: Why is this task necessary? (e.g., Performance, Security, Code Quality)
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: todo
+    attributes:
+      label: Acceptance Criteria / Todo List
+      description: What needs to be completed for this task to be closed?
+      options:
+        - label: Implementation completed
+        - label: Tests updated/added (`make test-coverage-ci`)
+        - label: Documentation updated
+    validations:
+      required: false
+
+  - type: textarea
+    id: debug_info
+    attributes:
+      label: Environment Info (Optional)
+      description: If this task depends on specific environment details, run `make debug-info` and paste here.
+      render: text
