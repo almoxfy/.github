@@ -1,27 +1,33 @@
-## Description
+## Descrição
 
-Summarize what changed and why (a few sentences).
+Resuma o que foi alterado e o motivo de forma clara e concisa.
 
-**Issue:** Fixes # (issue number, or write **N/A** — e.g. `Fixes #123`)
+**Issue:** Resolve # (número da issue, ou escreva **N/A** — ex: `Resolve #123`)
 
-## Type of change
+## Tipo de mudança
 
-- [ ] Bug fix
-- [ ] New feature
-- [ ] Breaking change
-- [ ] Documentation update
-- [ ] Chore / maintenance (CI, refactor, tooling)
+- [ ] Correção de falha (Bug fix)
+- [ ] Nova funcionalidade (New feature)
+- [ ] Mudança estrutural (Breaking change - altera integrações, APIs ou contratos)
+- [ ] Atualização de documentação
+- [ ] Manutenção (CI, refatoração, tooling, infraestrutura)
 
-## Breaking changes & review focus
+## Mudanças Estruturais e Foco da Revisão
 
-- **Breaking changes:** Describe any breaking changes for users or integrators, or write **None**.
-- **Where to focus:** Call out files, APIs, or behaviour you want reviewers to pay special attention to (or write **N/A**).
+- **Breaking changes:** Descreva qualquer mudança que afete a compatibilidade para integrações ou para os demais repositórios do ecossistema Almoxfy. Caso não haja, escreva **Nenhum**.
+- **Onde focar:** Indique arquivos, APIs, manifestos ou comportamentos específicos que exigem atenção detalhada dos revisores. Caso não haja, escreva **N/A**.
+- **Impacto no fluxo:** Esta alteração interfere na usabilidade, no fluxo de governança ou na capacidade de auditoria do sistema? (Justifique brevemente em caso afirmativo).
 
-## Developer checklist
+## Checklist do Desenvolvedor
 
-- [ ] I have written unit tests for my changes (or justified why tests are not needed)
-- [ ] I have run the test suite and all tests pass locally (`make test`; use `make test-coverage-ci` when the project defines it for CI parity)
-- [ ] I have updated the relevant documentation
-- [ ] My code follows the style guidelines of this project (`make lint`)
-- [ ] I have performed a self-review of my code
-- [ ] Coverage meets the minimum set in this repository’s `Makefile` (`MIN_COVERAGE`)
+**Qualidade de Código e Testes**
+- [ ] Realizei uma autorrevisão minuciosa do meu código.
+- [ ] O código submetido segue os padrões e guias de estilo estabelecidos pelo projeto (`make lint`).
+- [ ] Escrevi testes automatizados para as alterações realizadas (ou apresentei justificativa técnica na descrição caso não sejam aplicáveis).
+- [ ] Executei a suíte de testes e todas as validações passaram localmente (`make test`; utilize `make test-coverage-ci` quando aplicável para paridade com CI).
+- [ ] A métrica de cobertura de testes atende ao limite mínimo definido no `Makefile` deste repositório (`MIN_COVERAGE`).
+
+**Impacto no Ecossistema (Cross-Repository)**
+- [ ] A alteração proposta exige atualizações técnicas ou conceituais na documentação? (Em caso positivo, referencie o respectivo PR no repositório `almoxfy-docs`).
+- [ ] Houve modificação de infraestrutura ou variáveis de ambiente que exija atualização dos manifestos no repositório `almoxfy-k8s`?
+- [ ] Houve modificação de contrato na API (`almoxfy-back`) que demande alinhamento imediato com o repositório de interface (`almoxfy-front`)?
