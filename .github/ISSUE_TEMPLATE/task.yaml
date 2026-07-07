@@ -1,64 +1,64 @@
-name: Task / Refactor
-description: Technical improvements, documentation, or maintenance tasks
+name: Tarefa / Refatoração
+description: Melhorias técnicas, documentação ou tarefas de manutenção
 body:
   - type: markdown
     attributes:
       value: |
-        ### Technical Task
-        Use this for internal improvements that don't necessarily change the end-user functionality.
+        ### Tarefa técnica
+        Use este template para melhorias internas que não alteram necessariamente a funcionalidade para o usuário final.
 
   - type: dropdown
     id: task_kind
     attributes:
-      label: Task kind
-      description: "A type label (type: chore, documentation, or improvement) is applied automatically from this choice via Actions in this repository."
+      label: Tipo de tarefa
+      description: "Uma label de tipo (type: chore, documentation ou improvement) é aplicada automaticamente a partir desta escolha via Actions neste repositório."
       options:
-        - Chore / tooling / CI
-        - Documentation
-        - Refactor / internal improvement
+        - Tarefa / ferramentas / CI
+        - Documentação
+        - Refatoração / melhoria interna
     validations:
       required: true
 
   - type: input
     id: scope
     attributes:
-      label: Scope
-      description: Briefly state which module, path, or area is affected.
-      placeholder: "e.g., Makefile, src/auth.py, .github/workflows"
+      label: Escopo
+      description: Indique brevemente qual módulo, caminho ou área é afetado.
+      placeholder: "ex.: Makefile, src/auth.py, .github/workflows"
     validations:
       required: true
 
   - type: textarea
     id: description
     attributes:
-      label: Description
-      description: What exactly needs to be done?
+      label: Descrição
+      description: O que exatamente precisa ser feito?
     validations:
       required: true
 
   - type: textarea
     id: rationale
     attributes:
-      label: Rationale
-      description: Why is this task necessary? (e.g., Performance, Security, Code Quality)
+      label: Justificativa
+      description: Por que esta tarefa é necessária? (ex.: desempenho, segurança, qualidade de código)
     validations:
       required: true
 
   - type: checkboxes
     id: todo
     attributes:
-      label: Acceptance Criteria / Todo List
-      description: What needs to be completed for this task to be closed?
+      label: Critérios de aceite / lista de tarefas
+      description: O que precisa ser concluído para fechar esta tarefa?
       options:
-        - label: Implementation completed
-        - label: Tests updated/added (`make test-coverage-ci`)
-        - label: Documentation updated
+        - label: Implementação concluída
+        - label: Testes atualizados/adicionados (`make test-coverage-ci`)
+        - label: Documentação atualizada
     validations:
       required: false
 
   - type: textarea
     id: debug_info
     attributes:
-      label: Environment Info (Optional)
-      description: If this task depends on specific environment details, run `make debug-info` and paste here.
+      label: Informações do ambiente (opcional)
+      description: Se esta tarefa depender de detalhes específicos do ambiente, execute `make debug-info` e cole aqui.
       render: text

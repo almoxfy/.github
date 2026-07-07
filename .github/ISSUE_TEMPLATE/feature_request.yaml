@@ -1,56 +1,56 @@
-name: Feature Request
-description: Suggest an idea or improvement for a almoxfy project
+name: Pedido de funcionalidade
+description: Sugira uma ideia ou melhoria para um projeto almoxfy
 labels: ["type: feature"]
 body:
   - type: markdown
     attributes:
       value: |
-        ### Thanks for your suggestion!
-        We are always looking for ways to improve our tools. Please describe the feature you'd like to see.
+        ### Obrigado pela sugestão!
+        Estamos sempre buscando formas de melhorar nossas ferramentas. Descreva a funcionalidade que você gostaria de ver.
 
   - type: dropdown
     id: area
     attributes:
-      label: Target Component
-      description: Which part of the project does this feature affect?
+      label: Componente alvo
+      description: Qual parte do projeto esta funcionalidade afeta?
       options:
-        - Core Engine (Python/Logic)
-        - CLI / Commands
-        - Documentation
-        - CI/CD & DevOps
-        - Infrastructure / Kubernetes Integrations
-        - Other
+        - Motor principal (Python/lógica)
+        - CLI / comandos
+        - Documentação
+        - CI/CD e DevOps
+        - Infraestrutura / integrações Kubernetes
+        - Outro
     validations:
       required: true
 
   - type: textarea
     id: problem
     attributes:
-      label: What problem are you trying to solve?
-      description: A clear and concise description of the friction or limitation you're facing.
-      placeholder: "Example: I'm always frustrated when I have to manually sync..."
+      label: Qual problema você está tentando resolver?
+      description: Uma descrição clara e objetiva da fricção ou limitação que você enfrenta.
+      placeholder: "Exemplo: sempre me frustro quando preciso sincronizar manualmente..."
     validations:
       required: true
 
   - type: textarea
     id: solution
     attributes:
-      label: Describe the proposed solution
-      description: What should happen? How should the new feature work?
+      label: Descreva a solução proposta
+      description: O que deveria acontecer? Como a nova funcionalidade deveria funcionar?
     validations:
       required: true
 
   - type: textarea
     id: alternatives
     attributes:
-      label: Alternatives considered
-      description: Have you considered any workarounds or other ways to achieve this?
+      label: Alternativas consideradas
+      description: Você considerou alguma solução alternativa ou outra forma de alcançar isso?
     validations:
       required: false
 
   - type: checkboxes
     id: contribution
     attributes:
-      label: Would you like to contribute?
+      label: Gostaria de contribuir?
       options:
-        - label: I am willing to submit a Pull Request for this feature!
+        - label: Estou disposto a enviar um Pull Request para esta funcionalidade!

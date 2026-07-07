@@ -1,6 +1,6 @@
-# Applies a single `type:*` label from the "Task kind" dropdown in
-# `.github/ISSUE_TEMPLATE/task.yaml`. Copy this workflow to other repositories
-# that use the same template and labels (it runs only in the repo where the file exists).
+# Aplica uma label `type:*` a partir do dropdown "Tipo de tarefa" em
+# `.github/ISSUE_TEMPLATE/task.yaml`. Copie este workflow para outros repositórios
+# que usem o mesmo template e labels (ele roda apenas no repositório onde o arquivo existe).
 
 name: Issue — label task by kind
 
@@ -10,7 +10,7 @@ on:
 
 jobs:
   apply-type-label:
-    if: contains(github.event.issue.body, '### Task kind')
+    if: contains(github.event.issue.body, '### Tipo de tarefa')
     runs-on: ubuntu-latest
     permissions:
       issues: write
@@ -19,7 +19,7 @@ jobs:
         with:
           script: |
             const body = context.payload.issue.body || '';
-            const header = /^### Task kind\s*$/m;
+            const header = /^### Tipo de tarefa\s*$/m;
             const hm = body.match(header);
             if (!hm) return;
 
@@ -33,18 +33,18 @@ jobs:
               .filter((l) => l.length > 0);
             const kind = lines[0];
             if (!kind) {
-              console.log('::warning::Task kind section was empty');
+              console.log('::warning::Seção Tipo de tarefa estava vazia');
               return;
             }
 
             const map = {
-              'Chore / tooling / CI': 'type: chore',
-              'Documentation': 'type: documentation',
-              'Refactor / internal improvement': 'type: improvement',
+              'Tarefa / ferramentas / CI': 'type: chore',
+              'Documentação': 'type: documentation',
+              'Refatoração / melhoria interna': 'type: improvement',
             };
             const label = map[kind];
             if (!label) {
-              console.log(`::warning::Unknown task kind, no label mapped: ${kind}`);
+              console.log(`::warning::Tipo de tarefa desconhecido, nenhuma label mapeada: ${kind}`);
               return;
             }
 

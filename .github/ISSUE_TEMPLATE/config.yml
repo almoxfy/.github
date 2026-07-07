@@ -1,6 +1,6 @@
 # https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository
 blank_issues_enabled: true
 contact_links:
-  - name: General questions
+  - name: Perguntas gerais
     url: https://github.com/almoxfy/almoxfy-docs/discussions
-    about: Use almoxfy-docs Discussions for questions that are not a bug report or feature request. Other almoxfy projects may add their own Discussions over time.
+    about: Use as Discussions do almoxfy-docs para perguntas que não sejam relato de bug ou pedido de funcionalidade. Outros projetos almoxfy podem adicionar suas próprias Discussions ao longo do tempo.

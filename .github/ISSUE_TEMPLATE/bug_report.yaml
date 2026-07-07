@@ -1,86 +1,86 @@
-name: Bug Report
-description: Report unexpected behavior in this repository
+name: Relato de bug
+description: Relate comportamento inesperado neste repositório
 labels: ["type: bug"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for the report. Please try the **latest release** or **default branch** before submitting.
+        Obrigado pelo relato. Antes de enviar, teste a **versão mais recente** ou o **branch padrão**.
 
   - type: textarea
     id: description
     attributes:
-      label: Describe the bug
-      description: A clear and concise summary of what is wrong.
-      placeholder: Short overview of the problem...
+      label: Descreva o bug
+      description: Um resumo claro e objetivo do que está errado.
+      placeholder: Breve visão geral do problema...
     validations:
       required: true
 
   - type: textarea
     id: expected
     attributes:
-      label: Expected behavior
-      description: What should have happened?
+      label: Comportamento esperado
+      description: O que deveria ter acontecido?
     validations:
       required: true
 
   - type: textarea
     id: actual
     attributes:
-      label: Actual behavior
-      description: What happened instead?
+      label: Comportamento atual
+      description: O que aconteceu em vez disso?
     validations:
       required: true
 
   - type: textarea
     id: repro
     attributes:
-      label: How can we reproduce it?
+      label: Como reproduzir?
       description: |
-        Minimal steps or commands. If the bug involves config files, use the field below (redact secrets).
+        Passos ou comandos mínimos. Se o bug envolver arquivos de configuração, use o campo abaixo (oculte segredos).
       placeholder: |
-        1. Run '...'
-        2. Set config to '...'
-        3. See error
+        1. Execute '...'
+        2. Configure para '...'
+        3. Veja o erro
     validations:
       required: true
 
   - type: textarea
     id: config_snippet
     attributes:
-      label: Config, manifest, or sample input (optional)
+      label: Config, manifesto ou entrada de exemplo (opcional)
       description: |
-        Paste only what is needed to reproduce (e.g. YAML, JSON, `.env` excerpt).
-        **Remove secrets, tokens, and passwords.**
+        Cole apenas o necessário para reproduzir (ex.: YAML, JSON, trecho de `.env`).
+        **Remova segredos, tokens e senhas.**
       render: yaml
       placeholder: |
-        # Optional — only if relevant
+        # Opcional — apenas se relevante
     validations:
       required: false
 
   - type: markdown
     attributes:
       value: |
-        ### Environment
-        Prefer pasting the **full** output of `make debug-info` from the project root (when that target exists).
-        Otherwise list **OS**, **Python version**, and versions of tools involved (e.g. **Kustomize**, **Helm**, **kubectl**, Docker).
+        ### Ambiente
+        Prefira colar a saída **completa** de `make debug-info` na raiz do projeto (quando esse target existir).
+        Caso contrário, informe **SO**, **versão do Python** e versões das ferramentas envolvidas (ex.: **Kustomize**, **Helm**, **kubectl**, Docker).
 
   - type: textarea
     id: environment
     attributes:
-      label: Environment details
+      label: Detalhes do ambiente
       description: |
-        Paste complete `make debug-info` output, **or** OS, Python, Kustomize/Helm/kubectl (and any other relevant tools).
+        Cole a saída completa de `make debug-info`, **ou** SO, Python, Kustomize/Helm/kubectl (e outras ferramentas relevantes).
       render: bash
-      placeholder: "Paste make debug-info output or list versions here..."
+      placeholder: "Cole a saída de make debug-info ou liste as versões aqui..."
     validations:
       required: true
 
   - type: textarea
     id: logs
     attributes:
-      label: Relevant logs or errors
-      description: Console errors, stack traces, or `make test` output (redact sensitive data).
+      label: Logs ou erros relevantes
+      description: Erros no console, stack traces ou saída de `make test` (oculte dados sensíveis).
       render: bash
     validations:
       required: false
@@ -88,9 +88,9 @@ body:
   - type: checkboxes
     id: checks
     attributes:
-      label: Self-check
+      label: Autoverificação
       options:
-        - label: I have removed sensitive information from logs and pasted material.
+        - label: Removi informações sensíveis dos logs e do material colado.
           required: true
-        - label: I reproduced this on the latest release or default branch.
+        - label: Reproduzi o problema na versão mais recente ou no branch padrão.
           required: false
