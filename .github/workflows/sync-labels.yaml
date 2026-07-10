@@ -3,23 +3,36 @@ on:
   push:
     paths:
       - '.github/config/labels.yaml'
+      - '.github/scripts/sync-labels.py'
+      - '.github/workflows/sync-labels.yaml'
   workflow_dispatch:
 
 jobs:
   labeler:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
+
+      - name: Validate LABEL_SYNC_TOKEN
+        env:
+          LABEL_SYNC_TOKEN: ${{ secrets.LABEL_SYNC_TOKEN }}
+        run: |
+          if [ -z "${LABEL_SYNC_TOKEN}" ]; then
+            echo "::error::Secret LABEL_SYNC_TOKEN está vazio ou não existe neste repositório (e não há secret de org aplicável)."
+            echo "Crie um PAT com acesso de escrita a Issues nos repos (classic: scope repo; fine-grained: Issues Read and write em cada repo privado) e adicione como Actions secret LABEL_SYNC_TOKEN."
+            exit 1
+          fi
+
       - name: Sync Labels
-        uses: micnncim/action-label-syncer@v1
-        with:
-          manifest: '.github/config/labels.yaml'
-          repository: |
+        env:
+          LABEL_SYNC_TOKEN: ${{ secrets.LABEL_SYNC_TOKEN }}
+          LABEL_MANIFEST: .github/config/labels.yaml
+          LABEL_PRUNE: "true"
+          LABEL_REPOS: |
             almoxfy/.github
             almoxfy/almoxfy.github.io
             almoxfy/almoxfy-back
             almoxfy/almoxfy-docs
             almoxfy/almoxfy-front
             almoxfy/almoxfy-k8s
-          token: ${{ secrets.LABEL_SYNC_TOKEN }}
-          prune: true
+        run: python3 .github/scripts/sync-labels.py
