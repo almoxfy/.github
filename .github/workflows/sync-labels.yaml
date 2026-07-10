@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - '.github/config/labels.yaml'
+  workflow_dispatch:
 
 jobs:
   labeler:
