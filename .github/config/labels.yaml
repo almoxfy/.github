@@ -47,6 +47,6 @@
   color: "d4c5f9"
   description: "Pedido de esclarecimento."
 
-- name: "presentation"
-  color: "b60205"
+- name: "type: presentation"
+  color: "d4c5f9"
   description: "Apresentação do projeto."
