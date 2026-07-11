@@ -1,6 +1,5 @@
-# Aplica uma label `type:*` a partir do dropdown "Tipo de tarefa" em
-# `.github/ISSUE_TEMPLATE/task.yaml`. Copie este workflow para outros repositórios
-# que usem o mesmo template e labels (ele roda apenas no repositório onde o arquivo existe).
+# Aplica `type: improvement` a partir do dropdown "Tipo de tarefa" quando for
+# refatoração. Documentação / CI usam Issue types (Documentation / DevOps / Misc).
 
 name: Issue — label task by kind
 
@@ -38,13 +37,11 @@ jobs:
             }
 
             const map = {
-              'Tarefa / ferramentas / CI': 'type: chore',
-              'Documentação': 'type: documentation',
               'Refatoração / melhoria interna': 'type: improvement',
             };
             const label = map[kind];
             if (!label) {
-              console.log(`::warning::Tipo de tarefa desconhecido, nenhuma label mapeada: ${kind}`);
+              console.log(`Nenhuma label automática para: ${kind} (usar Issue type Documentation / DevOps / Misc)`);
               return;
             }
 
