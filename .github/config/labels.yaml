@@ -46,3 +46,7 @@
 - name: "type: question"
   color: "d4c5f9"
   description: "Pedido de esclarecimento."
+
+- name: "presentation"
+  color: "b60205"
+  description: "Apresentação do projeto."
