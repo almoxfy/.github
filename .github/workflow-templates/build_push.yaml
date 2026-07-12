@@ -1,0 +1,20 @@
+name: Build and Push
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag da imagem"
+        required: false
+        default: "latest"
+        type: string
+
+jobs:
+  build:
+    uses: almoxfy/.github/.github/workflows/build_push.yaml@main
+    secrets: inherit
+    with:
+      tag: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || 'latest' }}

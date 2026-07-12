@@ -1,0 +1,109 @@
+name: Test coverage check
+
+on:
+  workflow_call:
+    inputs:
+      min_coverage:
+        description: "Minimum code coverage percentage required"
+        required: false
+        default: "90"
+        type: string
+      test_command:
+        description: "Command that runs tests and prints COVERAGE_PERCENT=<value>"
+        required: false
+        default: "make test-coverage-ci"
+        type: string
+      coverage_prefix:
+        description: "Prefix used in command output for coverage extraction"
+        required: false
+        default: "COVERAGE_PERCENT="
+        type: string
+      use_docker:
+        description: "If true, sets up Docker Compose and runs docker compose down after tests"
+        required: false
+        default: true
+        type: boolean
+      checkout_ref:
+        description: "Git ref to checkout (branch, tag, or SHA). Empty uses the default ref for the workflow run."
+        required: false
+        default: ""
+        type: string
+      upload_test_output_artifact:
+        description: "If true, uploads artifacts/test-output.log as workflow artifact"
+        required: false
+        default: true
+        type: boolean
+
+env:
+  MIN_COVERAGE_REQUIRED: ${{ inputs.min_coverage }}
+  TEST_COMMAND: ${{ inputs.test_command }}
+  COVERAGE_PREFIX: ${{ inputs.coverage_prefix }}
+
+jobs:
+  test-coverage-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.checkout_ref != '' && inputs.checkout_ref || github.ref }}
+
+      - name: Set up Docker Compose
+        if: inputs.use_docker
+        uses: docker/setup-compose-action@v2
+
+      - name: Run tests and retrieve coverage
+        id: total-coverage
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          OUTPUT_FILE="artifacts/test-output.log"
+
+          if ! bash -o pipefail -c "${TEST_COMMAND}" | tee "${OUTPUT_FILE}"; then
+            echo "Test command failed: ${TEST_COMMAND}"
+            exit 1
+          fi
+
+          COVERAGE="$(
+            awk -v prefix="${COVERAGE_PREFIX}" '
+              index($0, prefix) == 1 {
+                print substr($0, length(prefix) + 1)
+              }
+            ' "${OUTPUT_FILE}" | tail -n1 | tr -d "[:space:]"
+          )"
+
+          if [ -z "${COVERAGE}" ]; then
+            echo "Coverage value not found. Expected prefix: ${COVERAGE_PREFIX}"
+            exit 1
+          fi
+
+          if ! [[ "${COVERAGE}" =~ ^[0-9]+([.][0-9]+)?$ ]]; then
+            echo "Invalid coverage value extracted: ${COVERAGE}"
+            exit 1
+          fi
+
+          echo "coverage=$COVERAGE" >> "$GITHUB_OUTPUT"
+          echo "Coverage is: $COVERAGE%"
+          if (( $(echo "$COVERAGE < $MIN_COVERAGE_REQUIRED" | bc -l) )); then
+            echo "Coverage is below minimum required: $COVERAGE%"
+            echo "Minimum required coverage: $MIN_COVERAGE_REQUIRED%"
+            exit 1
+          fi
+
+      - name: Upload test output artifact
+        if: always() && inputs.upload_test_output_artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-coverage-output
+          path: artifacts/test-output.log
+          if-no-files-found: ignore
+
+      - name: Stop Docker services
+        if: always() && inputs.use_docker
+        run: |
+          set -euo pipefail
+          docker compose down
