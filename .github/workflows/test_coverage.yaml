@@ -24,7 +24,7 @@ on:
         default: true
         type: boolean
       checkout_ref:
-        description: "Git ref to checkout (branch, tag, or SHA). Empty uses the default ref for the workflow run."
+        description: "Git ref to checkout (branch, tag, or SHA). Empty uses PR head SHA on pull_request, otherwise github.sha."
         required: false
         default: ""
         type: string
@@ -50,7 +50,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
         with:
-          ref: ${{ inputs.checkout_ref != '' && inputs.checkout_ref || github.ref }}
+          # Prefer an explicit ref; on pull_request avoid refs/pull/*/merge (deleted on merge).
+          ref: ${{ inputs.checkout_ref != '' && inputs.checkout_ref || github.event.pull_request.head.sha || github.sha }}
 
       - name: Set up Docker Compose
         if: inputs.use_docker
@@ -106,4 +107,8 @@ jobs:
         if: always() && inputs.use_docker
         run: |
           set -euo pipefail
-          docker compose down
+          if [ -f compose.yaml ] || [ -f compose.yml ] || [ -f docker-compose.yaml ] || [ -f docker-compose.yml ]; then
+            docker compose down
+          else
+            echo "No Docker Compose file found; skipping docker compose down"
+          fi
