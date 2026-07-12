@@ -56,8 +56,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     outputs:
-      environment: ${{ env.ENVIRONMENT }}
-      image: ${{ env.REGISTRY_URL }}/${{ github.event.repository.name }}/${{ env.ENVIRONMENT }}:${{ env.IMAGE_TAG }}
+      image: ${{ env.REGISTRY_USERNAME }}/${{ github.event.repository.name }}:${{ env.IMAGE_TAG }}
       tag: ${{ env.IMAGE_TAG }}
       trigger: ${{ env.TRIGGER }}
 
@@ -65,21 +64,18 @@ jobs:
       - name: Set build variables
         run: |
           {
-            echo "ENVIRONMENT=prd"
             echo "TRIGGER=${{ github.event_name }}"
             echo "IMAGE_REPO_NAME=${{ github.event.repository.name }}"
             echo "IMAGE_TAG=${{ inputs.tag }}"
-            echo "REGISTRY_URL=${{ vars.REGISTRY_URL }}"
             echo "REGISTRY_USERNAME=${{ vars.REGISTRY_USERNAME }}"
             echo "REGISTRY_PASSWORD=${{ secrets.REGISTRY_PASSWORD }}"
             echo "URI_API=${{ vars.URI_API }}"
             echo "URI_DOCS=${{ vars.URI_DOCS }}"
           } >> "$GITHUB_ENV"
 
-      - name: Login to Registry
+      - name: Login to Docker Hub
         uses: docker/login-action@v4
         with:
-          registry: ${{ env.REGISTRY_URL }}
           username: ${{ env.REGISTRY_USERNAME }}
           password: ${{ env.REGISTRY_PASSWORD }}
 
@@ -96,11 +92,10 @@ jobs:
           push: true
           load: ${{ inputs.dependencies_list_path != '' }}
           target: ${{ inputs.docker_target_stage }}
-          tags: ${{ env.REGISTRY_URL }}/${{ env.IMAGE_REPO_NAME }}/${{ env.ENVIRONMENT }}:${{ env.IMAGE_TAG }}
+          tags: ${{ env.REGISTRY_USERNAME }}/${{ env.IMAGE_REPO_NAME }}:${{ env.IMAGE_TAG }}
           secrets: |
             GITHUB_TOKEN=${{ secrets.TOKEN_GITHUB }}
           build-args: |
-            ENVIRONMENT=${{ env.ENVIRONMENT }}
             URI_API=${{ env.URI_API }}
             URI_DOCS=${{ env.URI_DOCS }}
 
@@ -111,7 +106,7 @@ jobs:
           DEPS_PATH: ${{ inputs.dependencies_list_path }}
         run: |
           set -euo pipefail
-          IMAGE="${REGISTRY_URL}/${IMAGE_REPO_NAME}/${ENVIRONMENT}:${IMAGE_TAG}"
+          IMAGE="${REGISTRY_USERNAME}/${IMAGE_REPO_NAME}:${IMAGE_TAG}"
           if docker run --rm --user root -e DEPS_PATH="$DEPS_PATH" --entrypoint /bin/sh "$IMAGE" -c 'test -f "$DEPS_PATH"'; then
             docker run --rm --user root --entrypoint /bin/cat "$IMAGE" "$DEPS_PATH" 2>&1 | tee dependencies-list.txt
             echo "dependencies_list_found=true" >> "$GITHUB_OUTPUT"
@@ -124,6 +119,6 @@ jobs:
         if: inputs.dependencies_list_path != '' && steps.dependencies_list.outputs.dependencies_list_found == 'true'
         uses: actions/upload-artifact@v7
         with:
-          name: dependencies-${{ env.ENVIRONMENT }}-${{ env.IMAGE_TAG }}
+          name: dependencies-${{ env.IMAGE_REPO_NAME }}-${{ env.IMAGE_TAG }}
           path: dependencies-list.txt
           if-no-files-found: error
